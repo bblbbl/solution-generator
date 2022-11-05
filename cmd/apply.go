@@ -48,5 +48,5 @@ func init() {
 
 	applyCmd.Flags().StringVarP(&pathToApplySolution, "path", "p", "", "Path to apply")
 
-	applyCmd.Flags().StringVarP(&applyDirName, "name", "a", "", "Dir name for new project")
+	applyCmd.Flags().StringVarP(&applyDirName, "dir", "d", "", "Dir name for new project")
 }
