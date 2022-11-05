@@ -29,7 +29,7 @@ func init() {
 
 	saveCmd.Flags().StringVarP(&solutionName, "name", "n", "", "New solution name")
 	if err := saveCmd.MarkFlagRequired("name"); err != nil {
-		log.Fatalf("%e", err)
+		log.Fatal("name is required argument", err)
 	}
 
 	saveCmd.Flags().StringVarP(&solutionPath, "path", "p", "", "Path to solution")

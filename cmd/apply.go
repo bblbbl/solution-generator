@@ -41,12 +41,12 @@ var applyCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(applyCmd)
 
-	applyCmd.Flags().StringVarP(&savedSolutionName, "solution-name", "n", "", "Solution name to apply")
-	if err := applyCmd.MarkFlagRequired("solution-name"); err != nil {
-		log.Fatalf("solution-name is required argument")
+	applyCmd.Flags().StringVarP(&savedSolutionName, "name", "n", "", "Solution name to apply")
+	if err := applyCmd.MarkFlagRequired("name"); err != nil {
+		log.Fatalf("name is required argument")
 	}
 
-	applyCmd.Flags().StringVarP(&pathToApplySolution, "path-apply", "p", "", "Path to apply")
+	applyCmd.Flags().StringVarP(&pathToApplySolution, "path", "p", "", "Path to apply")
 
-	applyCmd.Flags().StringVarP(&applyDirName, "name-apply", "a", "", "Dir name for new project")
+	applyCmd.Flags().StringVarP(&applyDirName, "name", "a", "", "Dir name for new project")
 }
