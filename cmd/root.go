@@ -21,7 +21,7 @@ func Execute() {
 }
 
 func init() {
-	if !internal.IsGeneratorDirExist() {
+	if !internal.IsDirExist(internal.GetGeneratorHomePath()) {
 		internal.MakeInstall()
 	}
 }

@@ -17,7 +17,7 @@ var saveCmd = &cobra.Command{
 	Long:  `Save solution to generator directory`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if solutionPath == "" {
-			solutionPath = internal.GetCurrentSolutionPath()
+			solutionPath = internal.GetCurrentDirPath()
 		}
 
 		internal.SaveSolution(solutionPath, solutionName)

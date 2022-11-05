@@ -15,14 +15,26 @@ var skipDirs = []string{
 }
 
 func SaveSolution(solutionPath, solutionName string) {
-	savePath := getSolutionSavePath(solutionName)
+	savePath := GetSolutionSavePath(solutionName)
 
 	createDir(savePath)
 
 	saveRecursive(savePath, solutionPath, readDirectory(solutionPath))
 }
 
-func GetCurrentSolutionPath() string {
+func ApplySolution(solutionPath, pathToApply string) {
+	createDir(pathToApply)
+
+	saveRecursive(pathToApply, solutionPath, readDirectory(solutionPath))
+}
+
+func DeleteSolution(solutionName string) {
+	if err := os.RemoveAll(GetSolutionSavePath(solutionName)); err != nil {
+		log.Fatalf("failed to delete solution: %e", err)
+	}
+}
+
+func GetCurrentDirPath() string {
 	wd, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("fialed to get current solution dir: %e", err)
@@ -31,8 +43,8 @@ func GetCurrentSolutionPath() string {
 	return wd
 }
 
-func IsGeneratorDirExist() bool {
-	if _, err := os.Stat(getGeneratorHomePath()); os.IsNotExist(err) {
+func IsDirExist(path string) bool {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return false
 	}
 
@@ -40,7 +52,24 @@ func IsGeneratorDirExist() bool {
 }
 
 func MakeInstall() {
-	createDir(getGeneratorHomePath())
+	createDir(GetGeneratorHomePath())
+}
+
+func GetSolutionSavePath(solutionName string) string {
+	return filepath.Join(GetGeneratorHomePath(), solutionName)
+}
+
+func SolutionExist(name string) bool {
+	return IsDirExist(GetSolutionSavePath(name))
+}
+
+func GetGeneratorHomePath() string {
+	dir, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatalf("failed to get user home directory")
+	}
+
+	return filepath.Join(dir, generatorHomeDirName)
 }
 
 func saveRecursive(savePath, sourcePath string, entries []os.DirEntry) {
@@ -116,17 +145,4 @@ func skip(path string) bool {
 	}
 
 	return false
-}
-
-func getGeneratorHomePath() string {
-	dir, err := os.UserHomeDir()
-	if err != nil {
-		log.Fatalf("failed to get user home directory")
-	}
-
-	return filepath.Join(dir, generatorHomeDirName)
-}
-
-func getSolutionSavePath(solutionName string) string {
-	return filepath.Join(getGeneratorHomePath(), solutionName)
 }
